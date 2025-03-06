@@ -79,9 +79,9 @@ for col in ["legal_name", "bic", "transaction_costs"]:
 output_csv_file = "gleif_data_output.csv"
 output_data = []
 for index, row in df.iterrows():
-    lei = row["lei"]
-    notional = row["notional"]
-    rate = row["rate"]
+    lei = row[LEI]
+    notional = row[NOTIONAL]
+    rate = row[RATE]
     result = get_data(lei)
     if not result:
         logger.warning(f"Skipping row {index} due to missing data for LEI: {lei}")
