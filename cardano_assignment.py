@@ -29,6 +29,8 @@ class Country(Enum):
 # empty cache initialized
 cache = {}
 
+base_url = "https://api.gleif.org/api/v1/lei-records?filter"
+
 
 def get_data(lei):
     # Check if the LEI is already cached
@@ -54,7 +56,6 @@ def get_data(lei):
     return None
 
 
-base_url = "https://api.gleif.org/api/v1/lei-records?filter"
 try:
     df = pd.read_csv("/home/jaimol/cardano/files/input_dataset.csv")
     logger.info(f"CSV file loaded with {len(df)} rows")
@@ -93,7 +94,7 @@ for index, row in df.iterrows():
 
         lei_value = result[DATA][0][ATTRIBUTES].get(LEI, "")
         if lei_value:
-            if lei != lei_value:
+            if lei.upper() != lei_value.upper():
                 logger.warning(f"LEI mismatch for {lei}. Skipping row.")
                 continue
             bic_list = result[DATA][0][ATTRIBUTES].get(BIC_LIST, [])
